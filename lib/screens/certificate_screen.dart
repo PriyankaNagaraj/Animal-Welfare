@@ -1,4 +1,4 @@
-import 'package:animal_welfare/common/dialogs.dart';
+import 'package:animal_welfare/screens/animal_details.dart';
 import 'package:flutter/material.dart';
 
 class CertificateScreen extends StatefulWidget {
@@ -12,10 +12,10 @@ class CertificateScreen extends StatefulWidget {
   }
 }
 
-class Purpose {
-  String purpose;
+class CheckList {
+  String check;
   bool isSelected;
-  Purpose({@required this.purpose, @required this.isSelected});
+  CheckList({@required this.check, @required this.isSelected});
 }
 
 class CertificateScreenState extends State<CertificateScreen> {
@@ -26,7 +26,6 @@ class CertificateScreenState extends State<CertificateScreen> {
       borderSide: BorderSide(color: Color(0xFF2E2E2E)),
       borderRadius: BorderRadius.circular(5));
 
-  int gender;
   bool isInfected;
   bool fitForTravel;
   bool isMixed;
@@ -34,6 +33,26 @@ class CertificateScreenState extends State<CertificateScreen> {
   bool isDiseasedMixed;
   bool givenTranq;
   String purpose;
+  bool firstCertificate = false;
+  List<CheckList> secondCertificateCheckList = [
+    CheckList(
+        check:
+            "I hereby certify that I have read rules 46 to 56 in Chapter IV of the Transport of Animals Rules, 1978.",
+        isSelected: false),
+    CheckList(
+        check:
+            "That, at the request of consignor I have examined the above mentioned Cattle in the goods vehicle/railway wagons not more than 12 hours before their departure.",
+        isSelected: false),
+    CheckList(
+        check:
+            "That, each cattle appeared to be in a fit condition to travel by rail/road and is not showing any signs of infectious contagious or parasitic disease and that it has been vaccinated against rinderpest and any other infectious or contagious or parasitic disease(s).",
+        isSelected: false),
+    CheckList(
+        check:
+            "That the cattle were adequately fed and watered for the purpose of the journey.",
+        isSelected: false),
+    CheckList(check: "That the cattle have been vaccinated.", isSelected: false)
+  ];
   List<Purpose> purposeList = [
     Purpose(purpose: "Fit for Breeding purpose", isSelected: false),
     Purpose(purpose: "Fit for Draught purpose", isSelected: false),
@@ -679,61 +698,6 @@ class CertificateScreenState extends State<CertificateScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Color(0x1A000000)),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, left: 8.0, right: 8.0),
-                                  child: Text(
-                                    "Whether animals have required provision of feed - fodder, water, rest and milking facilities during transportation",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Row(children: <Widget>[
-                                  Expanded(
-                                    child: RadioListTile(
-                                      title: Text("Yes"),
-                                      value: true,
-                                      groupValue: givenTranq,
-                                      onChanged: (bool value) {
-                                        setState(() {
-                                          givenTranq = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: RadioListTile(
-                                      title: Text("No"),
-                                      value: false,
-                                      groupValue: givenTranq,
-                                      onChanged: (bool value) {
-                                        setState(() {
-                                          givenTranq = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ]),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextField(
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: null,
-                                    style: TextStyle(fontSize: 14),
-                                    decoration:
-                                        textFieldDecoration("Mention Feed"),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
                           decoration: BoxDecoration(
                               border: Border.all(color: Color(0x1A000000)),
                               borderRadius: BorderRadius.circular(10)),
@@ -758,7 +722,8 @@ class CertificateScreenState extends State<CertificateScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextField(
                                   style: TextStyle(fontSize: 14),
-                                  decoration: textFieldDecoration("Place"),
+                                  decoration: textFieldDecoration(
+                                      "Place of inspection"),
                                 ),
                               ),
                               Padding(
@@ -818,347 +783,177 @@ class CertificateScreenState extends State<CertificateScreen> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  title: Text(
+                    "I hereby certify that I have read the Rules 96 of the Transport of Animals (amendment) Rules 2001 and the Permission for transport of animals as per the above application is hereby issued.",
+                    style: TextStyle(fontSize: 10),
+                  ),
+                  value: firstCertificate,
+                  onChanged: (bool newValue) {
+                    setState(() {
+                      firstCertificate = newValue;
+                    });
+                  },
+                ),
+                Card(
+                    child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text("Animal Details",
-                          style: TextStyle(fontSize: 16)),
+                      padding: const EdgeInsets.only(top: 18.0),
+                      child:
+                          Text("SCHEDULE - H", style: TextStyle(fontSize: 14)),
                     ),
-                    IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          setState(() {
-                            animalDetails.add("value");
-                          });
-                        })
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    ...animalDetails.map(
-                      (e) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: <Widget>[
-                                TextField(
-                                  style: TextStyle(fontSize: 16),
-                                  decoration: textFieldDecoration("Species"),
-                                ),
-                                SizedBox(height: 4),
-                                TextField(
-                                  style: TextStyle(fontSize: 16),
-                                  decoration: textFieldDecoration("Breed"),
-                                ),
-                                SizedBox(height: 4),
-                                TextField(
-                                  style: TextStyle(fontSize: 16),
-                                  decoration: textFieldDecoration("Age"),
-                                ),
-                                SizedBox(height: 4),
-                                Row(children: <Widget>[
-                                  Expanded(
-                                    child: RadioListTile(
-                                      title: Text("Male"),
-                                      value: 0,
-                                      groupValue: gender,
-                                      onChanged: (int value) {
-                                        setState(() {
-                                          gender = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: RadioListTile(
-                                      title: Text("Female"),
-                                      value: 1,
-                                      groupValue: gender,
-                                      onChanged: (int value) {
-                                        setState(() {
-                                          gender = value;
-                                        });
-                                      },
-                                    ),
-                                  )
-                                ]),
-                                TextField(
-                                  keyboardType: TextInputType.number,
-                                  style: TextStyle(fontSize: 16),
-                                  decoration:
-                                      textFieldDecoration("Number of animals"),
-                                ),
-                                SizedBox(height: 4),
-                                TextField(
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: null,
-                                  style: TextStyle(fontSize: 16),
-                                  decoration:
-                                      textFieldDecoration("Description"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 15.0),
-                                  child: Text(
-                                    "Please check wherever applicable",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    ...purposeList.map(
-                                      (e) => CheckboxListTile(
-                                        controlAffinity:
-                                            ListTileControlAffinity.leading,
-                                        title: Text(e.purpose ?? ""),
-                                        value: e.isSelected,
-                                        onChanged: (bool newValue) {
-                                          setState(() {
-                                            e.isSelected = newValue;
-                                          });
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
+                    Text("(See Rule 47)", style: TextStyle(fontSize: 10)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                          "Proforma for Certificate of fitness to travel Cattle",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration(
+                            "Date and Time of the examination"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration("Cattle Species"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration(
+                            "Name of the truck/Railway Wagon"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration("Number of Cattle"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration("Sex"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration("Age"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration("Transport From"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration("Transport To"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration: textFieldDecoration("Via"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        decoration:
+                            textFieldDecoration("Duration of the Journey"),
+                      ),
+                    ),
+                    Column(
+                      children: <Widget>[
+                        ...secondCertificateCheckList.map(
+                          (e) => CheckboxListTile(
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(
+                              e.check ?? "",
+                              style: TextStyle(fontSize: 10),
                             ),
+                            value: e.isSelected,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                e.isSelected = newValue;
+                              });
+                            },
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Text(
-                    "Purpose of Transportation",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                RadioListTile(
-                  title: Text("For Farming/Draught purpose"),
-                  value: "For Farming/Draught purpose",
-                  groupValue: purpose,
-                  onChanged: (String value) {
-                    setState(() {
-                      purpose = value;
-                    });
-                  },
-                ),
-                RadioListTile(
-                  title: Text("For Milking/Breeding purpose"),
-                  value: "For Milking/Breeding purpose",
-                  groupValue: purpose,
-                  onChanged: (String value) {
-                    setState(() {
-                      purpose = value;
-                    });
-                  },
-                ),
-                RadioListTile(
-                  title: Text("For Slaughter purpose"),
-                  value: "For Slaughter purpose",
-                  groupValue: purpose,
-                  onChanged: (String value) {
-                    setState(() {
-                      purpose = value;
-                    });
-                  },
-                ),
-                TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  style: TextStyle(fontSize: 16),
-                  decoration: textFieldDecoration("Any other reason"),
-                ),
-                SizedBox(height: 4),
-                TextField(
-                  style: TextStyle(fontSize: 16),
-                  decoration:
-                      textFieldDecoration("Registration Number of Vehicle"),
-                ),
-                SizedBox(height: 4),
-                TextField(
-                  style: TextStyle(fontSize: 16),
-                  decoration: textFieldDecoration("Transported From"),
-                ),
-                SizedBox(height: 4),
-                TextField(
-                  style: TextStyle(fontSize: 16),
-                  decoration: textFieldDecoration("Transporting To"),
-                ),
-                SizedBox(height: 4),
-                TextField(
-                  style: TextStyle(fontSize: 16),
-                  decoration: textFieldDecoration("VIA"),
-                ),
-                SizedBox(height: 4),
-                TextField(
-                  style: TextStyle(fontSize: 16),
-                  decoration:
-                      textFieldDecoration("Duration of Proposed journey"),
-                ),
-                Card(
-                    child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Transport Authority/Agency",
-                          style: TextStyle(fontSize: 16)),
+                        )
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: TextStyle(fontSize: 16),
-                        decoration: textFieldDecoration("Name and Address"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, left: 8.0, bottom: 8.0, right: 8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(fontSize: 16),
-                        decoration: textFieldDecoration("Contact Number"),
-                      ),
-                    ),
-                  ],
-                )),
-                Card(
-                    child: Column(children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Vehicle's Driver",
-                        style: TextStyle(fontSize: 16)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      style: TextStyle(fontSize: 16),
-                      decoration: textFieldDecoration("Name and Address"),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8.0, left: 8.0, bottom: 8.0, right: 8.0),
-                    child: TextField(
-                      style: TextStyle(fontSize: 16),
-                      decoration: textFieldDecoration("Driving License Number"),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8.0, left: 8.0, bottom: 8.0, right: 8.0),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(fontSize: 16),
-                      decoration: textFieldDecoration("Contact Number"),
-                    ),
-                  ),
-                ])),
-                Card(
-                    child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Consignor", style: TextStyle(fontSize: 16)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: TextStyle(fontSize: 16),
-                        decoration: textFieldDecoration("Name and Address"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, left: 8.0, bottom: 8.0, right: 8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(fontSize: 16),
-                        decoration: textFieldDecoration("Contact Number"),
-                      ),
-                    ),
-                  ],
-                )),
-                Card(
-                    child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Consignee", style: TextStyle(fontSize: 16)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: TextStyle(fontSize: 16),
-                        decoration: textFieldDecoration("Name and Address"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, left: 8.0, bottom: 8.0, right: 8.0),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(fontSize: 16),
-                        decoration: textFieldDecoration("Contact Number"),
-                      ),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x1A000000)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 8.0, left: 8.0, right: 8.0),
+                                child: Text(
+                                  "Vaccination Details",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextField(
+                                  style: TextStyle(fontSize: 14),
+                                  decoration: textFieldDecoration("Type"),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextField(
+                                  style: TextStyle(fontSize: 14),
+                                  decoration: textFieldDecoration("Date"),
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
                   ],
                 )),
                 RaisedButton(
                   color: Color(0xFF2E2E2E),
                   child: Text(
-                    'Issue Ticket',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    "Proceed to fill the animal details",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0)),
-                  onPressed: () async => {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (_) => WillPopScope(
-                              onWillPop: () async => false,
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            )),
-                    await Future.delayed(Duration(seconds: 2)),
-                    Navigator.of(context).pop(),
-                    showDialog(
-                        context: context,
-                        builder: (context) => CommonAlertDialog(
-                              title: Text("Ticket issued successfully!"),
-                              actions: <Widget>[
-                                FlatButton(
-                                  child: Text(
-                                    "OK",
-                                    style: TextStyle(
-                                        color: Color(0xFF007AFF),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 17),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context)..pop()..pop();
-                                  },
-                                ),
-                              ],
-                            ))
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            AnimalDetails(chosenAnimal: widget.chosenAnimal)));
                   },
-                )
+                ),
               ]),
             )));
   }
