@@ -1,5 +1,9 @@
+import 'package:animal_welfare/auth/authentication.dart';
+import 'package:animal_welfare/model/fetched_cert_model.dart';
 import 'package:animal_welfare/screens/certificate_screen.dart';
+import 'package:animal_welfare/screens/pdf_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CertificateTabScreen extends StatefulWidget {
   static const String routeName = '/CertificateTabScreen';
@@ -12,17 +16,23 @@ class CertificateTabScreen extends StatefulWidget {
 class CertificateTabScreenState extends State<CertificateTabScreen>
     with TickerProviderStateMixin {
   TabController _tabController;
+  Future fetchedCertificatesList;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    fetchCertificates();
+  }
+
+  fetchCertificates() {
+    fetchedCertificatesList = authentication.fetchCertificates();
   }
 
   @override
   Widget build(BuildContext context) {
     var sSize = MediaQuery.of(context).size;
-    List<String> animals = ["Cattle", "Dog", "Cat", "Horse"];
+    List<String> animals = ["Cattle"];
     return SafeArea(
         top: false,
         child: Scaffold(
@@ -58,46 +68,120 @@ class CertificateTabScreenState extends State<CertificateTabScreen>
                       ),
                     )
                   ]),
-              Container(
-                height: sSize.height - 132,
-                child:
-                    TabBarView(controller: _tabController, children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                          width: sSize.width,
-                          height: 50,
-                          color: Color(0xFF9B9B9B),
-                          child: Center(
-                              child: Text(
-                            "Choose Animal",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ))),
-                      Expanded(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: animals.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CertificateScreen(
-                                                      chosenAnimal:
-                                                          animals[index])));
-                                    },
-                                    title: Text(animals[index],
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500)));
-                              }))
-                    ],
-                  ),
-                  Center(
-                      child:
-                          Text("Coming Soon", style: TextStyle(fontSize: 20)))
-                ]),
+              Expanded(
+                child: Container(
+                  child:
+                      TabBarView(controller: _tabController, children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                            width: sSize.width,
+                            height: 50,
+                            color: Color(0xFF9B9B9B),
+                            child: Center(
+                                child: Text(
+                              "Choose Animal",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ))),
+                        Expanded(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: animals.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CertificateScreen(
+                                                        chosenAnimal:
+                                                            animals[index])));
+                                      },
+                                      title: Text(animals[index],
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500)));
+                                }))
+                      ],
+                    ),
+                    FutureBuilder(
+                      future: fetchedCertificatesList,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(snapshot.error.toString()),
+                          );
+                        }
+                        if (!snapshot.hasData) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        List certificates = snapshot.data;
+                        if (certificates.isEmpty) {
+                          return Center(
+                              child: Text("Not Certificates Issued Yet",
+                                  style: TextStyle(fontSize: 20)));
+                        }
+
+                        return ListView.builder(
+                            itemCount: certificates.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Card(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              "Issued On: ",
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            Text(
+                                                DateFormat("yyyy-MM-dd hh:mm")
+                                                    .format(DateTime
+                                                        .fromMillisecondsSinceEpoch(
+                                                            certificates[index]
+                                                                .issuedOn)),
+                                                style: TextStyle(fontSize: 16)),
+                                          ],
+                                        ),
+                                      ),
+                                      Text(
+                                          "Place of Inspection: ${certificates[index].inspectionPlace}",
+                                          style: TextStyle(fontSize: 16)),
+                                      RaisedButton(
+                                          color: Color(0xFF2E2E2E),
+                                          child: Text(
+                                            "Download Certificate",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) => PdfView(
+                                                        id: certificates[index]
+                                                            .id,
+                                                        pdfFileUrl: certificates[index].certificateDownloadUrl)));
+                                          })
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                    )
+                  ]),
+                ),
               )
             ],
           ),
