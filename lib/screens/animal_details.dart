@@ -75,141 +75,135 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
                           })
                     ],
                   ),
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        ...animalDetailsList.map(
-                          (e) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    TextFormField(
-                                      style: TextStyle(fontSize: 16),
-                                      decoration:
-                                          textFieldDecoration("Species"),
-                                      onChanged: (val) {
-                                        e.species = val;
-                                      },
-                                    ),
-                                    SizedBox(height: 4),
-                                    TextFormField(
-                                      style: TextStyle(fontSize: 16),
-                                      decoration: textFieldDecoration("Breed"),
-                                      onChanged: (val) {
-                                        e.breed = val;
-                                      },
-                                    ),
-                                    SizedBox(height: 4),
-                                    TextFormField(
-                                      style: TextStyle(fontSize: 16),
-                                      decoration: textFieldDecoration("Age"),
-                                      onChanged: (val) {
-                                        e.age = val;
-                                      },
-                                    ),
-                                    SizedBox(height: 4),
-                                    TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      inputFormatters: [
-                                        WhitelistingTextInputFormatter
-                                            .digitsOnly,
-                                      ],
-                                      style: TextStyle(fontSize: 16),
-                                      decoration: textFieldDecoration(
-                                          "Number of Male animals"),
-                                      onChanged: (val) {
-                                        e.sexAndCount.maleCount =
-                                            int.parse(val);
-                                      },
-                                    ),
-                                    SizedBox(height: 4),
-                                    TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      inputFormatters: [
-                                        WhitelistingTextInputFormatter
-                                            .digitsOnly,
-                                      ],
-                                      style: TextStyle(fontSize: 16),
-                                      decoration: textFieldDecoration(
-                                          "Number of Female animals"),
-                                      onChanged: (val) {
-                                        e.sexAndCount.femaleCount =
-                                            int.parse(val);
-                                      },
-                                    ),
-                                    SizedBox(height: 4),
-                                    TextFormField(
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: null,
-                                      style: TextStyle(fontSize: 16),
-                                      decoration:
-                                          textFieldDecoration("Description"),
-                                      onChanged: (val) {
-                                        e.coatDescription = val;
-                                      },
-                                    ),
-                                    SizedBox(height: 4),
-                                    TextFormField(
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: null,
-                                      style: TextStyle(fontSize: 16),
-                                      decoration: textFieldDecoration(
-                                          "Breed and Identification marks"),
-                                      onChanged: (val) {
-                                        e.breedAndIdMarks = val;
-                                      },
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 15.0),
-                                      child: Text(
-                                        "Please check wherever applicable",
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                                    CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      title: Text("Fit for Breeding purpose"),
-                                      value: e.isFitForBreeding,
-                                      onChanged: (bool newValue) {
-                                        setState(() {
-                                          e.isFitForBreeding = newValue;
-                                        });
-                                      },
-                                    ),
-                                    CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      title: Text("Fit for Draught purpose"),
-                                      value: e.isFitForDraughtPurpose,
-                                      onChanged: (bool newValue) {
-                                        setState(() {
-                                          e.isFitForDraughtPurpose = newValue;
-                                        });
-                                      },
-                                    ),
-                                    CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      title: Text("Fit for Milking purpose"),
-                                      value: e.isFitForMilkingPurpose,
-                                      onChanged: (bool newValue) {
-                                        setState(() {
-                                          e.isFitForMilkingPurpose = newValue;
-                                        });
-                                      },
-                                    ),
-                                  ],
+                  ...animalDetailsList.map(
+                    (e) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              TextFormField(
+                                style: TextStyle(fontSize: 16),
+                                decoration:
+                                    textFieldDecoration("Species"),
+                                onChanged: (val) {
+                                  e.species = val;
+                                },
+                              ),
+                              SizedBox(height: 4),
+                              TextFormField(
+                                style: TextStyle(fontSize: 16),
+                                decoration: textFieldDecoration("Breed"),
+                                onChanged: (val) {
+                                  e.breed = val;
+                                },
+                              ),
+                              SizedBox(height: 4),
+                              TextFormField(
+                                style: TextStyle(fontSize: 16),
+                                decoration: textFieldDecoration("Age"),
+                                onChanged: (val) {
+                                  e.age = val;
+                                },
+                              ),
+                              SizedBox(height: 4),
+                              TextFormField(
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  WhitelistingTextInputFormatter
+                                      .digitsOnly,
+                                ],
+                                style: TextStyle(fontSize: 16),
+                                decoration: textFieldDecoration(
+                                    "Number of Male animals"),
+                                onChanged: (val) {
+                                  e.sexAndCount.maleCount =
+                                      int.parse(val);
+                                },
+                              ),
+                              SizedBox(height: 4),
+                              TextFormField(
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  WhitelistingTextInputFormatter
+                                      .digitsOnly,
+                                ],
+                                style: TextStyle(fontSize: 16),
+                                decoration: textFieldDecoration(
+                                    "Number of Female animals"),
+                                onChanged: (val) {
+                                  e.sexAndCount.femaleCount =
+                                      int.parse(val);
+                                },
+                              ),
+                              SizedBox(height: 4),
+                              TextFormField(
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                style: TextStyle(fontSize: 16),
+                                decoration:
+                                    textFieldDecoration("Description"),
+                                onChanged: (val) {
+                                  e.coatDescription = val;
+                                },
+                              ),
+                              SizedBox(height: 4),
+                              TextFormField(
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                style: TextStyle(fontSize: 16),
+                                decoration: textFieldDecoration(
+                                    "Breed and Identification marks"),
+                                onChanged: (val) {
+                                  e.breedAndIdMarks = val;
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: Text(
+                                  "Please check wherever applicable",
+                                  style: TextStyle(fontSize: 16),
                                 ),
                               ),
-                            ),
+                              CheckboxListTile(
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                title: Text("Fit for Breeding purpose"),
+                                value: e.isFitForBreeding,
+                                onChanged: (bool newValue) {
+                                  setState(() {
+                                    e.isFitForBreeding = newValue;
+                                  });
+                                },
+                              ),
+                              CheckboxListTile(
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                title: Text("Fit for Draught purpose"),
+                                value: e.isFitForDraughtPurpose,
+                                onChanged: (bool newValue) {
+                                  setState(() {
+                                    e.isFitForDraughtPurpose = newValue;
+                                  });
+                                },
+                              ),
+                              CheckboxListTile(
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                title: Text("Fit for Milking purpose"),
+                                value: e.isFitForMilkingPurpose,
+                                onChanged: (bool newValue) {
+                                  setState(() {
+                                    e.isFitForMilkingPurpose = newValue;
+                                  });
+                                },
+                              ),
+                            ],
                           ),
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   ),
                   RaisedButton(
