@@ -2,6 +2,7 @@ import 'package:animal_welfare/model/certificate_model.dart';
 import 'package:animal_welfare/screens/animal_details.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CertificateScreen extends StatefulWidget {
   static const String routeName = '/CertificateScreen';
@@ -1279,6 +1280,9 @@ class CertificateScreenState extends State<CertificateScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
                             style: TextStyle(fontSize: 14),
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly,
+                            ],
                             keyboardType: TextInputType.number,
                             decoration: textFieldDecoration("Number of Cattle"),
                             validator: (str) {
@@ -1493,12 +1497,12 @@ class CertificateScreenState extends State<CertificateScreen> {
     FocusScope.of(context).unfocus();
     valid = _certificateKey.currentState.validate();
     if (valid) {
-    _certificateKey.currentState.save();
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => AnimalDetailsScreen(
-              chosenAnimal: widget.chosenAnimal,
-              certificateModel: certificateModel,
-            )));
+      _certificateKey.currentState.save();
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => AnimalDetailsScreen(
+                chosenAnimal: widget.chosenAnimal,
+                certificateModel: certificateModel,
+              )));
     }
   }
 
