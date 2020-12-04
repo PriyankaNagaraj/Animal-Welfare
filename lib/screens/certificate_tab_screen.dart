@@ -22,6 +22,14 @@ class CertificateTabScreenState extends State<CertificateTabScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        return;
+      }
+      if (_tabController.index == 1) {
+        fetchCertificates();
+      }
+    });
     fetchCertificates();
   }
 
@@ -160,7 +168,7 @@ class CertificateTabScreenState extends State<CertificateTabScreen>
                                       RaisedButton(
                                           color: Color(0xFF2E2E2E),
                                           child: Text(
-                                            "Download Certificate",
+                                            "View Certificate",
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.white),
@@ -171,7 +179,9 @@ class CertificateTabScreenState extends State<CertificateTabScreen>
                                                     builder: (context) => PdfView(
                                                         id: certificates[index]
                                                             .id,
-                                                        pdfFileUrl: certificates[index].certificateDownloadUrl)));
+                                                        pdfFileUrl: certificates[
+                                                                index]
+                                                            .certificateDownloadUrl)));
                                           })
                                     ],
                                   ),

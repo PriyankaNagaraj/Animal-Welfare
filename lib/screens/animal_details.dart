@@ -3,6 +3,7 @@ import 'package:animal_welfare/common/dialogs.dart';
 import 'package:animal_welfare/model/certificate_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AnimalDetailsScreen extends StatefulWidget {
   static const String routeName = '/AnimalDetailsScreen';
@@ -86,8 +87,7 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
                             children: <Widget>[
                               TextFormField(
                                 style: TextStyle(fontSize: 16),
-                                decoration:
-                                    textFieldDecoration("Species"),
+                                decoration: textFieldDecoration("Species"),
                                 onChanged: (val) {
                                   e.species = val;
                                 },
@@ -112,30 +112,26 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
                               TextFormField(
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
-                                  WhitelistingTextInputFormatter
-                                      .digitsOnly,
+                                  WhitelistingTextInputFormatter.digitsOnly,
                                 ],
                                 style: TextStyle(fontSize: 16),
                                 decoration: textFieldDecoration(
                                     "Number of Male animals"),
                                 onChanged: (val) {
-                                  e.sexAndCount.maleCount =
-                                      int.parse(val);
+                                  e.sexAndCount.maleCount = int.parse(val);
                                 },
                               ),
                               SizedBox(height: 4),
                               TextFormField(
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
-                                  WhitelistingTextInputFormatter
-                                      .digitsOnly,
+                                  WhitelistingTextInputFormatter.digitsOnly,
                                 ],
                                 style: TextStyle(fontSize: 16),
                                 decoration: textFieldDecoration(
                                     "Number of Female animals"),
                                 onChanged: (val) {
-                                  e.sexAndCount.femaleCount =
-                                      int.parse(val);
+                                  e.sexAndCount.femaleCount = int.parse(val);
                                 },
                               ),
                               SizedBox(height: 4),
@@ -143,8 +139,7 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
                                 keyboardType: TextInputType.multiline,
                                 maxLines: null,
                                 style: TextStyle(fontSize: 16),
-                                decoration:
-                                    textFieldDecoration("Description"),
+                                decoration: textFieldDecoration("Description"),
                                 onChanged: (val) {
                                   e.coatDescription = val;
                                 },
@@ -214,6 +209,16 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
                     ),
                     onPressed: () async {
                       FocusScope.of(context).unfocus();
+                      try {
+                        Position position = await Geolocator.getCurrentPosition(
+                            desiredAccuracy: LocationAccuracy.high);
+                        widget.certificateModel.latitude = position.latitude;
+                        widget.certificateModel.longitude = position.longitude;
+                      } on Exception catch (exception) {
+                        print(exception);
+                        widget.certificateModel.latitude = 0;
+                        widget.certificateModel.longitude = 0;
+                      }
                       widget.certificateModel.animalDetails = animalDetailsList;
                       showDialog(
                           context: context,
@@ -232,7 +237,8 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
                           showDialog(
                               context: context,
                               builder: (context) => CommonAlertDialog(
-                                    title: Text("Certificate issued successfully!"),
+                                    title: Text(
+                                        "Certificate issued successfully!"),
                                     actions: <Widget>[
                                       FlatButton(
                                         child: Text(
@@ -243,7 +249,10 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
                                               fontSize: 17),
                                         ),
                                         onPressed: () {
-                                          Navigator.of(context)..pop()..pop()..pop();
+                                          Navigator.of(context)
+                                            ..pop()
+                                            ..pop()
+                                            ..pop();
                                         },
                                       ),
                                     ],
