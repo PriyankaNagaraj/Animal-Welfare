@@ -1512,19 +1512,22 @@ class CertificateScreenState extends State<CertificateScreen> {
   }
 
   validateCheckBoxes() {
-    if (certificateModel.isRule96Certified == null ||
-        certificateModel.isRule46To56Certified == null ||
-        certificateModel.canAnimalsTravel12Hours == null ||
-        certificateModel.canAnimalsTravel == null ||
-        certificateModel.areAnimalsFed == null ||
-        certificateModel.areAnimalsVaccinated == null ||
-        certificateModel.areAnimalsFreeFromDiseases == null ||
-        certificateModel.noUnfitAnimals == null ||
-        certificateModel.pregnantAnimalsAreNotMixedWithYoungerOnes == null ||
-        certificateModel.differentClassesOfAnimalsAreSeparated == null ||
-        certificateModel.noDiseasedAnimals == null ||
-        certificateModel.animalsTranquilizedIfNeeded == null) return false;
-    return true;
+    if (certificateModel.isRule96Certified == false ||
+        certificateModel.isRule46To56Certified == false ||
+        certificateModel.canAnimalsTravel12Hours == false ||
+        certificateModel.canAnimalsTravel == false ||
+        certificateModel.areAnimalsFed == false ||
+        certificateModel.areAnimalsVaccinated == false ||
+        certificateModel.areAnimalsFreeFromDiseases.isTrue == null ||
+        certificateModel.noUnfitAnimals.isTrue == null ||
+        certificateModel.pregnantAnimalsAreNotMixedWithYoungerOnes.isTrue == null ||
+        certificateModel.differentClassesOfAnimalsAreSeparated.isTrue == null ||
+        certificateModel.noDiseasedAnimals.isTrue == null ||
+        certificateModel.animalsTranquilizedIfNeeded.isTrue == null ||
+        certificateModel.purposeOfTransportation == null) {
+      return false;
+    } else
+      return true;
   }
 
   checkListValues() {
