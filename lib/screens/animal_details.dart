@@ -32,7 +32,7 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
       borderSide: BorderSide(color: Color(0xFF2E2E2E)),
       borderRadius: BorderRadius.circular(5));
 
-  int gender;
+  final GlobalKey<FormState> _animalDetailsKey = GlobalKey<FormState>();
 
   List<Purpose> purposeList = [
     Purpose(purpose: "Fit for Breeding purpose", isSelected: false),
@@ -41,7 +41,7 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
   ];
   List<AnimalDetails> animalDetailsList = [AnimalDetails()];
   ScrollController _scrollController = ScrollController();
-
+  bool autoValidate = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,224 +50,264 @@ class AnimalDetailsState extends State<AnimalDetailsScreen> {
             appBar: AppBar(
               title: Text(widget.chosenAnimal),
             ),
-            body: ListView(
-                // reverse: true,
-                controller: _scrollController,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Text("Animal Details",
-                            style: TextStyle(fontSize: 16)),
-                      ),
-                      IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () {
-                            setState(() {
-                              animalDetailsList.add(AnimalDetails());
-                            });
-                            double offSet =
-                                (600 * (animalDetailsList.length - 1)) / 1;
-                            _scrollController.animateTo(offSet,
-                                curve: Curves.easeOut,
-                                duration: const Duration(milliseconds: 300));
-                          })
-                    ],
-                  ),
-                  ...animalDetailsList.map(
-                    (e) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              TextFormField(
+            body: Form(
+              key: _animalDetailsKey,
+              autovalidate: autoValidate,
+              child: ListView(controller: _scrollController, children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text("Animal Details",
+                          style: TextStyle(fontSize: 16)),
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          setState(() {
+                            animalDetailsList.add(AnimalDetails());
+                          });
+                          double offSet =
+                              (600 * (animalDetailsList.length - 1)) / 1;
+                          _scrollController.animateTo(offSet,
+                              curve: Curves.easeOut,
+                              duration: const Duration(milliseconds: 300));
+                        })
+                  ],
+                ),
+                ...animalDetailsList.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            TextFormField(
+                              style: TextStyle(fontSize: 16),
+                              decoration: textFieldDecoration("Species"),
+                              onChanged: (val) {
+                                e.species = val;
+                              },
+                              validator: (str) {
+                                return str.trim().isEmpty
+                                    ? "Please fill valid data"
+                                    : null;
+                              },
+                            ),
+                            SizedBox(height: 4),
+                            TextFormField(
+                              style: TextStyle(fontSize: 16),
+                              decoration: textFieldDecoration("Breed"),
+                              onChanged: (val) {
+                                e.breed = val;
+                              },
+                              validator: (str) {
+                                return str.trim().isEmpty
+                                    ? "Please fill valid data"
+                                    : null;
+                              },
+                            ),
+                            SizedBox(height: 4),
+                            TextFormField(
+                              style: TextStyle(fontSize: 16),
+                              decoration: textFieldDecoration("Age"),
+                              onChanged: (val) {
+                                e.age = val;
+                              },
+                              validator: (str) {
+                                return str.trim().isEmpty
+                                    ? "Please fill valid data"
+                                    : null;
+                              },
+                            ),
+                            SizedBox(height: 4),
+                            TextFormField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                WhitelistingTextInputFormatter.digitsOnly,
+                              ],
+                              style: TextStyle(fontSize: 16),
+                              decoration:
+                                  textFieldDecoration("Number of Male animals"),
+                              onChanged: (val) {
+                                e.sexAndCount.maleCount = int.parse(val);
+                              },
+                              validator: (str) {
+                                return str.trim().isEmpty
+                                    ? "Please fill valid data"
+                                    : null;
+                              },
+                            ),
+                            SizedBox(height: 4),
+                            TextFormField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                WhitelistingTextInputFormatter.digitsOnly,
+                              ],
+                              style: TextStyle(fontSize: 16),
+                              decoration: textFieldDecoration(
+                                  "Number of Female animals"),
+                              onChanged: (val) {
+                                e.sexAndCount.femaleCount = int.parse(val);
+                              },
+                              validator: (str) {
+                                return str.trim().isEmpty
+                                    ? "Please fill valid data"
+                                    : null;
+                              },
+                            ),
+                            SizedBox(height: 4),
+                            TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              style: TextStyle(fontSize: 16),
+                              decoration: textFieldDecoration("Description"),
+                              onChanged: (val) {
+                                e.coatDescription = val;
+                              },
+                              validator: (str) {
+                                return str.trim().isEmpty
+                                    ? "Please fill valid data"
+                                    : null;
+                              },
+                            ),
+                            SizedBox(height: 4),
+                            TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              style: TextStyle(fontSize: 16),
+                              decoration: textFieldDecoration(
+                                  "Breed and Identification marks"),
+                              onChanged: (val) {
+                                e.breedAndIdMarks = val;
+                              },
+                              validator: (str) {
+                                return str.trim().isEmpty
+                                    ? "Please fill valid data"
+                                    : null;
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: Text(
+                                "Please check wherever applicable",
                                 style: TextStyle(fontSize: 16),
-                                decoration: textFieldDecoration("Species"),
-                                onChanged: (val) {
-                                  e.species = val;
-                                },
                               ),
-                              SizedBox(height: 4),
-                              TextFormField(
-                                style: TextStyle(fontSize: 16),
-                                decoration: textFieldDecoration("Breed"),
-                                onChanged: (val) {
-                                  e.breed = val;
-                                },
-                              ),
-                              SizedBox(height: 4),
-                              TextFormField(
-                                style: TextStyle(fontSize: 16),
-                                decoration: textFieldDecoration("Age"),
-                                onChanged: (val) {
-                                  e.age = val;
-                                },
-                              ),
-                              SizedBox(height: 4),
-                              TextFormField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  WhitelistingTextInputFormatter.digitsOnly,
-                                ],
-                                style: TextStyle(fontSize: 16),
-                                decoration: textFieldDecoration(
-                                    "Number of Male animals"),
-                                onChanged: (val) {
-                                  e.sexAndCount.maleCount = int.parse(val);
-                                },
-                              ),
-                              SizedBox(height: 4),
-                              TextFormField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  WhitelistingTextInputFormatter.digitsOnly,
-                                ],
-                                style: TextStyle(fontSize: 16),
-                                decoration: textFieldDecoration(
-                                    "Number of Female animals"),
-                                onChanged: (val) {
-                                  e.sexAndCount.femaleCount = int.parse(val);
-                                },
-                              ),
-                              SizedBox(height: 4),
-                              TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                style: TextStyle(fontSize: 16),
-                                decoration: textFieldDecoration("Description"),
-                                onChanged: (val) {
-                                  e.coatDescription = val;
-                                },
-                              ),
-                              SizedBox(height: 4),
-                              TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                style: TextStyle(fontSize: 16),
-                                decoration: textFieldDecoration(
-                                    "Breed and Identification marks"),
-                                onChanged: (val) {
-                                  e.breedAndIdMarks = val;
-                                },
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15.0),
-                                child: Text(
-                                  "Please check wherever applicable",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              CheckboxListTile(
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                title: Text("Fit for Breeding purpose"),
-                                value: e.isFitForBreeding,
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    e.isFitForBreeding = newValue;
-                                  });
-                                },
-                              ),
-                              CheckboxListTile(
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                title: Text("Fit for Draught purpose"),
-                                value: e.isFitForDraughtPurpose,
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    e.isFitForDraughtPurpose = newValue;
-                                  });
-                                },
-                              ),
-                              CheckboxListTile(
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                title: Text("Fit for Milking purpose"),
-                                value: e.isFitForMilkingPurpose,
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    e.isFitForMilkingPurpose = newValue;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
+                            ),
+                            CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("Fit for Breeding purpose"),
+                              value: e.isFitForBreeding,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  e.isFitForBreeding = newValue;
+                                });
+                              },
+                            ),
+                            CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("Fit for Draught purpose"),
+                              value: e.isFitForDraughtPurpose,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  e.isFitForDraughtPurpose = newValue;
+                                });
+                              },
+                            ),
+                            CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("Fit for Milking purpose"),
+                              value: e.isFitForMilkingPurpose,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  e.isFitForMilkingPurpose = newValue;
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  RaisedButton(
-                    color: Color(0xFF2E2E2E),
-                    child: Text(
-                      "Issue Certificate",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    onPressed: () async {
-                      FocusScope.of(context).unfocus();
-                      try {
-                        Position position = await Geolocator.getCurrentPosition(
-                            desiredAccuracy: LocationAccuracy.high);
-                        widget.certificateModel.latitude = position.latitude;
-                        widget.certificateModel.longitude = position.longitude;
-                      } on Exception catch (exception) {
-                        print(exception);
-                        widget.certificateModel.latitude = 0;
-                        widget.certificateModel.longitude = 0;
-                      }
-                      widget.certificateModel.animalDetails = animalDetailsList;
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (_) => WillPopScope(
-                                onWillPop: () async => false,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ));
-                      authentication
-                          .createCertificate(widget.certificateModel)
-                          .then((onValue) {
-                        Navigator.of(context).pop();
-                        if (onValue['status'] == 200) {
-                          showDialog(
-                              context: context,
-                              builder: (context) => CommonAlertDialog(
-                                    title: Text(
-                                        "Certificate issued successfully!"),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text(
-                                          "OK",
-                                          style: TextStyle(
-                                              color: Color(0xFF007AFF),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 17),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                            ..pop()
-                                            ..pop()
-                                            ..pop();
-                                        },
-                                      ),
-                                    ],
-                                  ));
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) =>
-                                ErrorDialog(title: onValue["message"]),
-                          );
-                        }
-                      });
-                    },
+                ),
+                RaisedButton(
+                  color: Color(0xFF2E2E2E),
+                  child: Text(
+                    "Issue Certificate",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
-                ])));
+                  onPressed: () async {
+                    FocusScope.of(context).unfocus();
+                    setState(() {
+                      autoValidate = true;
+                    });
+                    var valid = _animalDetailsKey.currentState.validate();
+                    if (!valid) {
+                      return;
+                    }
+                    try {
+                      Position position = await Geolocator.getCurrentPosition(
+                          desiredAccuracy: LocationAccuracy.high);
+                      widget.certificateModel.latitude = position.latitude;
+                      widget.certificateModel.longitude = position.longitude;
+                    } on Exception catch (exception) {
+                      print(exception);
+                      widget.certificateModel.latitude = 0;
+                      widget.certificateModel.longitude = 0;
+                    }
+                    widget.certificateModel.animalDetails = animalDetailsList;
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) => WillPopScope(
+                              onWillPop: () async => false,
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ));
+                    authentication
+                        .createCertificate(widget.certificateModel)
+                        .then((onValue) {
+                      Navigator.of(context).pop();
+                      if (onValue['status'] == 200) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => CommonAlertDialog(
+                                  title:
+                                      Text("Certificate issued successfully!"),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text(
+                                        "OK",
+                                        style: TextStyle(
+                                            color: Color(0xFF007AFF),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 17),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                          ..pop()
+                                          ..pop()
+                                          ..pop();
+                                      },
+                                    ),
+                                  ],
+                                ));
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) =>
+                              ErrorDialog(title: onValue["message"]),
+                        );
+                      }
+                    });
+                  },
+                ),
+              ]),
+            )));
   }
 
   textFieldDecoration(String labelText) {

@@ -59,7 +59,7 @@ class CertificateScreenState extends State<CertificateScreen> {
   ];
   Certificate certificateModel;
   bool valid;
-
+  bool autoValidate = false;
   @override
   void initState() {
     super.initState();
@@ -79,6 +79,7 @@ class CertificateScreenState extends State<CertificateScreen> {
             body: SingleChildScrollView(
               child: Form(
                 key: _certificateKey,
+                autovalidate: autoValidate,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(children: <Widget>[
@@ -1493,9 +1494,13 @@ class CertificateScreenState extends State<CertificateScreen> {
   }
 
   validateAndSave() {
+    setState(() {
+      autoValidate = true;
+    });
     checkListValues();
     FocusScope.of(context).unfocus();
-    valid = _certificateKey.currentState.validate();
+    valid = validateCheckBoxes();
+    if (valid) valid = _certificateKey.currentState.validate();
     if (valid) {
       _certificateKey.currentState.save();
       Navigator.of(context).push(MaterialPageRoute(
@@ -1504,6 +1509,22 @@ class CertificateScreenState extends State<CertificateScreen> {
                 certificateModel: certificateModel,
               )));
     }
+  }
+
+  validateCheckBoxes() {
+    if (certificateModel.isRule96Certified == null ||
+        certificateModel.isRule46To56Certified == null ||
+        certificateModel.canAnimalsTravel12Hours == null ||
+        certificateModel.canAnimalsTravel == null ||
+        certificateModel.areAnimalsFed == null ||
+        certificateModel.areAnimalsVaccinated == null ||
+        certificateModel.areAnimalsFreeFromDiseases == null ||
+        certificateModel.noUnfitAnimals == null ||
+        certificateModel.pregnantAnimalsAreNotMixedWithYoungerOnes == null ||
+        certificateModel.differentClassesOfAnimalsAreSeparated == null ||
+        certificateModel.noDiseasedAnimals == null ||
+        certificateModel.animalsTranquilizedIfNeeded == null) return false;
+    return true;
   }
 
   checkListValues() {
