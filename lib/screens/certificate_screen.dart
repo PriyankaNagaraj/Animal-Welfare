@@ -4,6 +4,8 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../common/dialogs.dart';
+
 class CertificateScreen extends StatefulWidget {
   static const String routeName = '/CertificateScreen';
   final String chosenAnimal;
@@ -68,7 +70,6 @@ class CertificateScreenState extends State<CertificateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Model is $certificateModel");
     var sSize = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
@@ -402,6 +403,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               .areAnimalsFreeFromDiseases
                                               ?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel
                                                   .areAnimalsFreeFromDiseases
@@ -418,6 +420,8 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               .areAnimalsFreeFromDiseases
                                               ?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
+
                                             setState(() {
                                               certificateModel
                                                   .areAnimalsFreeFromDiseases
@@ -484,6 +488,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                           groupValue: certificateModel
                                               .noUnfitAnimals?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel.noUnfitAnimals
                                                   .isTrue = value;
@@ -498,6 +503,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                           groupValue: certificateModel
                                               .noUnfitAnimals?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel.noUnfitAnimals
                                                   .isTrue = value;
@@ -561,6 +567,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               .pregnantAnimalsAreNotMixedWithYoungerOnes
                                               ?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel
                                                   .pregnantAnimalsAreNotMixedWithYoungerOnes
@@ -577,6 +584,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               .pregnantAnimalsAreNotMixedWithYoungerOnes
                                               ?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel
                                                   .pregnantAnimalsAreNotMixedWithYoungerOnes
@@ -644,6 +652,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               .differentClassesOfAnimalsAreSeparated
                                               ?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel
                                                   .differentClassesOfAnimalsAreSeparated
@@ -660,6 +669,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               .differentClassesOfAnimalsAreSeparated
                                               ?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel
                                                   .differentClassesOfAnimalsAreSeparated
@@ -726,6 +736,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                           groupValue: certificateModel
                                               .noDiseasedAnimals?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel.noDiseasedAnimals
                                                   .isTrue = value;
@@ -740,6 +751,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                           groupValue: certificateModel
                                               .noDiseasedAnimals?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel.noDiseasedAnimals
                                                   .isTrue = value;
@@ -803,6 +815,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               .animalsTranquilizedIfNeeded
                                               ?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel
                                                   .animalsTranquilizedIfNeeded
@@ -820,6 +833,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             setState(() {
+                                              FocusScope.of(context).unfocus();
                                               certificateModel
                                                   .animalsTranquilizedIfNeeded
                                                   .isTrue = value;
@@ -889,6 +903,9 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               child: Text(purpose),
                                             );
                                           }).toList(),
+                                          onTap: () {
+                                            FocusScope.of(context).unfocus();
+                                          },
                                           onChanged: (val) {
                                             setState(() {
                                               certificateModel
@@ -952,6 +969,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                           groupValue: certificateModel
                                               .animalsHaveRequiredFeeds?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel
                                                   .animalsHaveRequiredFeeds
@@ -967,6 +985,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                           groupValue: certificateModel
                                               .animalsHaveRequiredFeeds?.isTrue,
                                           onChanged: (bool value) {
+                                            FocusScope.of(context).unfocus();
                                             setState(() {
                                               certificateModel
                                                   .animalsHaveRequiredFeeds
@@ -1053,21 +1072,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                             ? "Please fill valid data"
                                             : null;
                                       },
-                                    ), /*TextFormField(
-                                      style: TextStyle(fontSize: 14),
-                                      decoration: textFieldDecoration("Time"),
-                                      validator: (str) {
-                                        return str.trim().isEmpty
-                                            ? "Please fill valid data"
-                                            : null;
-                                      },
-                                      onSaved: (val) {
-                                        certificateModel.transportationDetails
-                                                .dateAndTime =
-                                            DateTime.now()
-                                                .millisecondsSinceEpoch;
-                                      },
-                                    ),*/
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -1167,7 +1172,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       padding: const EdgeInsets.only(
                                           top: 8.0, left: 8.0, right: 8.0),
                                       child: Text(
-                                        "Place of inspection by the authorised epresentative of Animal Welfare Board of India (AWBI)",
+                                        "Place of inspection by the authorised representative of Animal Welfare Board of India (AWBI)",
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
@@ -1500,7 +1505,15 @@ class CertificateScreenState extends State<CertificateScreen> {
     checkListValues();
     FocusScope.of(context).unfocus();
     valid = validateCheckBoxes();
-    if (valid) valid = _certificateKey.currentState.validate();
+    if (valid)
+      valid = _certificateKey.currentState.validate();
+    else {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorDialog(
+            title: "Please fill valid data. Read and accept all the above checkpoints to proceed."),
+      );
+    }
     if (valid) {
       _certificateKey.currentState.save();
       Navigator.of(context).push(MaterialPageRoute(
@@ -1520,7 +1533,8 @@ class CertificateScreenState extends State<CertificateScreen> {
         certificateModel.areAnimalsVaccinated == false ||
         certificateModel.areAnimalsFreeFromDiseases.isTrue == null ||
         certificateModel.noUnfitAnimals.isTrue == null ||
-        certificateModel.pregnantAnimalsAreNotMixedWithYoungerOnes.isTrue == null ||
+        certificateModel.pregnantAnimalsAreNotMixedWithYoungerOnes.isTrue ==
+            null ||
         certificateModel.differentClassesOfAnimalsAreSeparated.isTrue == null ||
         certificateModel.noDiseasedAnimals.isTrue == null ||
         certificateModel.animalsTranquilizedIfNeeded.isTrue == null ||

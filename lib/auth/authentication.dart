@@ -49,13 +49,18 @@ class Auth {
     return resBody;
   }
 
-  Future fetchCertificates() async {
+  Future fetchCertificates(int from, int to) async {
     String url = '$baseURL/certificates';
     String token = await storage.read(key: 'AccessToken');
     String doctorId = await storage.read(key: 'doctorId');
 
-    var requestData = json
-        .encode({"doctorId": doctorId, "offsetHour": 5, "offsetMinute": 30});
+    var requestData = json.encode({
+      "doctorId": doctorId,
+      "offsetHour": 5,
+      "offsetMinute": 30,
+      "from": (from == null) ? "" : from.toString(),
+      "to": (to == null) ? "" : to.toString()
+    });
 
     var headerData = header;
     headerData.addAll({"Authorization": token});
@@ -75,8 +80,8 @@ class Auth {
       return certificateList
           .map((f) => FetchedCertificate.fromJson(f))
           .toList();
-    }
-    return Future.error(resBody["message"]);
+    } else
+      Future.error(resBody["message"]);
   }
 
   Future createCertificate(Certificate certificateData) async {
