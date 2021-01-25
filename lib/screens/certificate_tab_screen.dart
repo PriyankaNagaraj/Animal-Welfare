@@ -1,5 +1,5 @@
 import 'package:animal_welfare/auth/authentication.dart';
-import 'package:animal_welfare/model/fetched_cert_model.dart';
+import 'package:animal_welfare/model/certificate_model.dart';
 import 'package:animal_welfare/screens/certificate_screen.dart';
 import 'package:animal_welfare/screens/pdf_viewer.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -127,12 +127,22 @@ class CertificateTabScreenState extends State<CertificateTabScreen>
                                 itemBuilder: (context, index) {
                                   return ListTile(
                                       onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CertificateScreen(
-                                                        chosenAnimal:
-                                                            animals[index])));
+                                        authentication
+                                            .getRequestDetails(28)
+                                            .then((onValue) async {
+                                          Certificate certificateModel =
+                                              onValue;
+                                          print("OnValue olage banthu");
+
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CertificateScreen(
+                                                          chosenAnimal:
+                                                              animals[index],
+                                                          certificateModel:
+                                                              certificateModel)));
+                                        });
                                       },
                                       title: Text(animals[index],
                                           style: TextStyle(

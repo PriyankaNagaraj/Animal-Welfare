@@ -32,6 +32,28 @@ class Auth {
     return resBody;
   }
 
+  Future getRequestDetails(int requestId) async {
+    String url = '$baseURL/certificate?cert_id=$requestId';
+    String token = await storage.read(key: 'AccessToken');
+    var headerData = header;
+    headerData.addAll({"Authorization": token});
+    var resBody;
+    try {
+      var res = await http.get(Uri.encodeFull(url), headers: header);
+      resBody = json.decode(res.body);
+
+      print(resBody);
+    } on SocketException {
+      throw ("No Internet Connection");
+    } on FormatException {
+      throw ("Unable to reach the server");
+    }
+    if (resBody["status"] == 200)
+      return Certificate.fromJson(resBody["entity"]);
+    else
+      Future.error(resBody["message"]);
+  }
+
   Future login(String userID, String otp) async {
     String url = '$baseURL/login';
     var loginData = json.encode({"governmentId": userID, "otp": otp});

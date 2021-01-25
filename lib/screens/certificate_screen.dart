@@ -9,7 +9,10 @@ import '../common/dialogs.dart';
 class CertificateScreen extends StatefulWidget {
   static const String routeName = '/CertificateScreen';
   final String chosenAnimal;
-  CertificateScreen({@required this.chosenAnimal});
+  Certificate certificateModel;
+
+  CertificateScreen(
+      {@required this.chosenAnimal, @required this.certificateModel});
 
   @override
   CertificateScreenState createState() {
@@ -24,6 +27,7 @@ class CheckList {
 }
 
 class CertificateScreenState extends State<CertificateScreen> {
+
   final GlobalKey<FormState> _certificateKey = GlobalKey<FormState>();
 
   final outLineBorder = OutlineInputBorder(
@@ -59,13 +63,11 @@ class CertificateScreenState extends State<CertificateScreen> {
     "Slaughter",
     "Other"
   ];
-  Certificate certificateModel;
   bool valid;
   bool autoValidate = false;
   @override
   void initState() {
     super.initState();
-    certificateModel = Certificate();
   }
 
   @override
@@ -111,7 +113,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.consignorDetails.name = val;
+                              widget.certificateModel.consignorDetails.name = val;
                             },
                           ),
                         ),
@@ -124,7 +126,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.consignorDetails.address = val;
+                              widget.certificateModel.consignorDetails.address = val;
                             },
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
@@ -144,7 +146,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.consignorDetails.contactNumber =
+                              widget.certificateModel.consignorDetails.contactNumber =
                                   val;
                             },
                           ),
@@ -172,7 +174,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.consigneeDetails.name = val;
+                              widget.certificateModel.consigneeDetails.name = val;
                             },
                           ),
                         ),
@@ -189,7 +191,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.consigneeDetails.address = val;
+                              widget.certificateModel.consigneeDetails.address = val;
                             },
                           ),
                         ),
@@ -205,7 +207,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.consigneeDetails.contactNumber =
+                              widget.certificateModel.consigneeDetails.contactNumber =
                                   val;
                             },
                           ),
@@ -233,7 +235,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.transportAgencyDetails.name =
+                              widget.certificateModel.transportAgencyDetails.name =
                                   val;
                             },
                           ),
@@ -251,7 +253,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.transportAgencyDetails.address =
+                              widget.certificateModel.transportAgencyDetails.address =
                                   val;
                             },
                           ),
@@ -268,7 +270,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel
+                              widget.certificateModel
                                   .transportAgencyDetails.contactNumber = val;
                             },
                           ),
@@ -296,7 +298,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.driverDetails.name = val;
+                              widget.certificateModel.driverDetails.name = val;
                             },
                           ),
                         ),
@@ -313,7 +315,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.driverDetails.address = val;
+                              widget.certificateModel.driverDetails.address = val;
                             },
                           ),
                         ),
@@ -329,7 +331,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.driverDetails.contactNumber =
+                              widget.certificateModel.driverDetails.contactNumber =
                                   val;
                             },
                           ),
@@ -345,7 +347,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.driverLicenceNumber = val;
+                              widget.certificateModel.driverLicenceNumber = val;
                             },
                           ),
                         ),
@@ -361,7 +363,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.vehicleRegistrationNumber = val;
+                              widget.certificateModel.vehicleRegistrationNumber = val;
                             },
                           ),
                         ),
@@ -399,13 +401,13 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("Yes"),
                                           value: true,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .areAnimalsFreeFromDiseases
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .areAnimalsFreeFromDiseases
                                                   .isTrue = value;
                                             });
@@ -416,14 +418,14 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("No"),
                                           value: false,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .areAnimalsFreeFromDiseases
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
 
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .areAnimalsFreeFromDiseases
                                                   .isTrue = value;
                                             });
@@ -432,11 +434,11 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       ),
                                     ]),
                                     Visibility(
-                                      visible: (certificateModel
+                                      visible: (widget.certificateModel
                                                   .areAnimalsFreeFromDiseases
                                                   .isTrue !=
                                               null &&
-                                          !certificateModel
+                                          !widget.certificateModel
                                               .areAnimalsFreeFromDiseases
                                               .isTrue),
                                       child: Padding(
@@ -453,7 +455,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                                 : null;
                                           },
                                           onSaved: (val) {
-                                            certificateModel
+                                            widget.certificateModel
                                                 .areAnimalsFreeFromDiseases
                                                 .commentsIfFalse = val;
                                           },
@@ -485,12 +487,12 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("Yes"),
                                           value: true,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .noUnfitAnimals?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel.noUnfitAnimals
+                                              widget.certificateModel.noUnfitAnimals
                                                   .isTrue = value;
                                             });
                                           },
@@ -500,12 +502,12 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("No"),
                                           value: false,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .noUnfitAnimals?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel.noUnfitAnimals
+                                              widget.certificateModel.noUnfitAnimals
                                                   .isTrue = value;
                                             });
                                           },
@@ -513,10 +515,10 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       ),
                                     ]),
                                     Visibility(
-                                      visible: (certificateModel
+                                      visible: (widget.certificateModel
                                                   .noUnfitAnimals.isTrue !=
                                               null &&
-                                          !certificateModel
+                                          !widget.certificateModel
                                               .noUnfitAnimals.isTrue),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -532,7 +534,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                                 : null;
                                           },
                                           onSaved: (val) {
-                                            certificateModel.noUnfitAnimals
+                                            widget.certificateModel.noUnfitAnimals
                                                 .commentsIfFalse = val;
                                           },
                                         ),
@@ -563,13 +565,13 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("Yes"),
                                           value: true,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .pregnantAnimalsAreNotMixedWithYoungerOnes
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .pregnantAnimalsAreNotMixedWithYoungerOnes
                                                   .isTrue = value;
                                             });
@@ -580,13 +582,13 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("No"),
                                           value: false,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .pregnantAnimalsAreNotMixedWithYoungerOnes
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .pregnantAnimalsAreNotMixedWithYoungerOnes
                                                   .isTrue = value;
                                             });
@@ -595,11 +597,11 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       ),
                                     ]),
                                     Visibility(
-                                      visible: (certificateModel
+                                      visible: (widget.certificateModel
                                                   .pregnantAnimalsAreNotMixedWithYoungerOnes
                                                   .isTrue !=
                                               null &&
-                                          !certificateModel
+                                          !widget.certificateModel
                                               .pregnantAnimalsAreNotMixedWithYoungerOnes
                                               .isTrue),
                                       child: Padding(
@@ -616,7 +618,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                                 : null;
                                           },
                                           onSaved: (val) {
-                                            certificateModel
+                                            widget.certificateModel
                                                 .pregnantAnimalsAreNotMixedWithYoungerOnes
                                                 .commentsIfFalse = val;
                                           },
@@ -648,13 +650,13 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("Yes"),
                                           value: true,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .differentClassesOfAnimalsAreSeparated
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .differentClassesOfAnimalsAreSeparated
                                                   .isTrue = value;
                                             });
@@ -665,13 +667,13 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("No"),
                                           value: false,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .differentClassesOfAnimalsAreSeparated
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .differentClassesOfAnimalsAreSeparated
                                                   .isTrue = value;
                                             });
@@ -680,11 +682,11 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       ),
                                     ]),
                                     Visibility(
-                                      visible: (certificateModel
+                                      visible: (widget.certificateModel
                                                   .differentClassesOfAnimalsAreSeparated
                                                   .isTrue !=
                                               null &&
-                                          !certificateModel
+                                          !widget.certificateModel
                                               .differentClassesOfAnimalsAreSeparated
                                               .isTrue),
                                       child: Padding(
@@ -701,7 +703,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                                 : null;
                                           },
                                           onSaved: (val) {
-                                            certificateModel
+                                            widget.certificateModel
                                                 .differentClassesOfAnimalsAreSeparated
                                                 .commentsIfFalse = val;
                                           },
@@ -733,12 +735,12 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("Yes"),
                                           value: true,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .noDiseasedAnimals?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel.noDiseasedAnimals
+                                              widget.certificateModel.noDiseasedAnimals
                                                   .isTrue = value;
                                             });
                                           },
@@ -748,12 +750,12 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("No"),
                                           value: false,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .noDiseasedAnimals?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel.noDiseasedAnimals
+                                              widget.certificateModel.noDiseasedAnimals
                                                   .isTrue = value;
                                             });
                                           },
@@ -761,10 +763,10 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       ),
                                     ]),
                                     Visibility(
-                                      visible: (certificateModel
+                                      visible: (widget.certificateModel
                                                   .noDiseasedAnimals.isTrue !=
                                               null &&
-                                          !certificateModel
+                                          !widget.certificateModel
                                               .noDiseasedAnimals.isTrue),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -780,7 +782,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                                 : null;
                                           },
                                           onSaved: (val) {
-                                            certificateModel.noDiseasedAnimals
+                                            widget.certificateModel.noDiseasedAnimals
                                                 .commentsIfFalse = val;
                                           },
                                         ),
@@ -811,13 +813,13 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("Yes"),
                                           value: true,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .animalsTranquilizedIfNeeded
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .animalsTranquilizedIfNeeded
                                                   .isTrue = value;
                                             });
@@ -828,13 +830,13 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("No"),
                                           value: false,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .animalsTranquilizedIfNeeded
                                               ?.isTrue,
                                           onChanged: (bool value) {
                                             setState(() {
                                               FocusScope.of(context).unfocus();
-                                              certificateModel
+                                              widget.certificateModel
                                                   .animalsTranquilizedIfNeeded
                                                   .isTrue = value;
                                             });
@@ -843,11 +845,11 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       ),
                                     ]),
                                     Visibility(
-                                      visible: (certificateModel
+                                      visible: (widget.certificateModel
                                                   .animalsTranquilizedIfNeeded
                                                   .isTrue !=
                                               null &&
-                                          !certificateModel
+                                          !widget.certificateModel
                                               .animalsTranquilizedIfNeeded
                                               .isTrue),
                                       child: Padding(
@@ -864,7 +866,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                                 : null;
                                           },
                                           onSaved: (val) {
-                                            certificateModel
+                                            widget.certificateModel
                                                 .animalsTranquilizedIfNeeded
                                                 .commentsIfFalse = val;
                                           },
@@ -874,76 +876,76 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   ],
                                 )),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                                width: sSize.width,
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0x1A000000)),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 8.0, left: 8.0, right: 8.0),
-                                      child: Text(
-                                        "Purpose before they are transported",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    DropdownButtonHideUnderline(
-                                      child: DropdownButton(
-                                          value: certificateModel
-                                              .purposeOfTransportation,
-                                          hint: Text("Choose One"),
-                                          items: purposes.map((purpose) {
-                                            return DropdownMenuItem<String>(
-                                              value: purpose,
-                                              child: Text(purpose),
-                                            );
-                                          }).toList(),
-                                          onTap: () {
-                                            FocusScope.of(context).unfocus();
-                                          },
-                                          onChanged: (val) {
-                                            setState(() {
-                                              certificateModel
-                                                      .purposeOfTransportation =
-                                                  val;
-                                            });
-                                          }),
-                                    ),
-                                    Visibility(
-                                      visible: (certificateModel
-                                                  .purposeOfTransportation !=
-                                              null &&
-                                          certificateModel
-                                                  .purposeOfTransportation ==
-                                              "Other"),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.multiline,
-                                          maxLines: null,
-                                          style: TextStyle(fontSize: 16),
-                                          decoration: textFieldDecoration(
-                                              "Specify other purpose"),
-                                          validator: (str) {
-                                            return str.trim().isEmpty
-                                                ? "Please fill valid data"
-                                                : null;
-                                          },
-                                          onSaved: (val) {
-                                            certificateModel
-                                                .purposeOfTransportation = val;
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: Container(
+                          //       width: sSize.width,
+                          //       decoration: BoxDecoration(
+                          //           border:
+                          //               Border.all(color: Color(0x1A000000)),
+                          //           borderRadius: BorderRadius.circular(10)),
+                          //       child: Column(
+                          //         children: <Widget>[
+                          //           Padding(
+                          //             padding: const EdgeInsets.only(
+                          //                 top: 8.0, left: 8.0, right: 8.0),
+                          //             child: Text(
+                          //               "Purpose before they are transported",
+                          //               textAlign: TextAlign.center,
+                          //             ),
+                          //           ),
+                          //           DropdownButtonHideUnderline(
+                          //             child: DropdownButton(
+                          //                 value: widget.certificateModel
+                          //                     .purposeOfTransportation,
+                          //                 hint: Text("Choose One"),
+                          //                 items: purposes.map((purpose) {
+                          //                   return DropdownMenuItem<String>(
+                          //                     value: purpose,
+                          //                     child: Text(purpose),
+                          //                   );
+                          //                 }).toList(),
+                          //                 onTap: () {
+                          //                   FocusScope.of(context).unfocus();
+                          //                 },
+                          //                 onChanged: (val) {
+                          //                   setState(() {
+                          //                     widget.certificateModel
+                          //                             .purposeOfTransportation =
+                          //                         val;
+                          //                   });
+                          //                 }),
+                          //           ),
+                          //           Visibility(
+                          //             visible: (widget.certificateModel
+                          //                         .purposeOfTransportation !=
+                          //                     null &&
+                          //                 widget.certificateModel
+                          //                         .purposeOfTransportation ==
+                          //                     "Other"),
+                          //             child: Padding(
+                          //               padding: const EdgeInsets.all(8.0),
+                          //               child: TextFormField(
+                          //                 keyboardType: TextInputType.multiline,
+                          //                 maxLines: null,
+                          //                 style: TextStyle(fontSize: 16),
+                          //                 decoration: textFieldDecoration(
+                          //                     "Specify other purpose"),
+                          //                 validator: (str) {
+                          //                   return str.trim().isEmpty
+                          //                       ? "Please fill valid data"
+                          //                       : null;
+                          //                 },
+                          //                 onSaved: (val) {
+                          //                   widget.certificateModel
+                          //                       .purposeOfTransportation = val;
+                          //                 },
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       )),
+                          // ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -966,12 +968,12 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("Yes"),
                                           value: true,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .animalsHaveRequiredFeeds?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .animalsHaveRequiredFeeds
                                                   .isTrue = value;
                                             });
@@ -982,12 +984,12 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         child: RadioListTile(
                                           title: Text("No"),
                                           value: false,
-                                          groupValue: certificateModel
+                                          groupValue: widget.certificateModel
                                               .animalsHaveRequiredFeeds?.isTrue,
                                           onChanged: (bool value) {
                                             FocusScope.of(context).unfocus();
                                             setState(() {
-                                              certificateModel
+                                              widget.certificateModel
                                                   .animalsHaveRequiredFeeds
                                                   .isTrue = value;
                                             });
@@ -1009,7 +1011,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               : null;
                                         },
                                         onSaved: (val) {
-                                          certificateModel
+                                          widget.certificateModel
                                               .animalsHaveRequiredFeeds
                                               .commentsIfFalse = val;
                                         },
@@ -1061,7 +1063,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       decoration:
                                           textFieldDecoration("Date and Time"),
                                       onChanged: (val) {
-                                        certificateModel.transportationDetails
+                                        widget.certificateModel.transportationDetails
                                                 .dateAndTime =
                                             DateFormat("yyyy-MM-dd hh:mm")
                                                 .parse(val)
@@ -1085,7 +1087,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                             : null;
                                       },
                                       onSaved: (val) {
-                                        certificateModel
+                                        widget.certificateModel
                                             .transportationDetails.place = val;
                                       },
                                     ),
@@ -1102,7 +1104,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                             : null;
                                       },
                                       onSaved: (val) {
-                                        certificateModel.transportationDetails
+                                        widget.certificateModel.transportationDetails
                                             .transportationMode = val;
                                       },
                                     ),
@@ -1119,7 +1121,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         decoration: textFieldDecoration(
                                             "Departure Time"),
                                         onChanged: (val) {
-                                          certificateModel.transportationDetails
+                                          widget.certificateModel.transportationDetails
                                                   .departureTime =
                                               DateFormat("yyyy-MM-dd hh:mm")
                                                   .parse(val)
@@ -1143,7 +1145,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                         decoration:
                                             textFieldDecoration("Arrival Time"),
                                         onChanged: (val) {
-                                          certificateModel.transportationDetails
+                                          widget.certificateModel.transportationDetails
                                                   .arrivalTime =
                                               DateFormat("yyyy-MM-dd hh:mm")
                                                   .parse(val)
@@ -1188,7 +1190,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                               : null;
                                         },
                                         onSaved: (val) {
-                                          certificateModel.inspectionPlace =
+                                          widget.certificateModel.inspectionPlace =
                                               val;
                                         },
                                       ),
@@ -1205,10 +1207,10 @@ class CertificateScreenState extends State<CertificateScreen> {
                         "I hereby certify that I have read the Rules 96 of the Transport of Animals (amendment) Rules 2001 and the Permission for transport of animals as per the above application is hereby issued.",
                         style: TextStyle(fontSize: 10),
                       ),
-                      value: certificateModel.isRule96Certified,
+                      value: widget.certificateModel.isRule96Certified,
                       onChanged: (bool newValue) {
                         setState(() {
-                          certificateModel.isRule96Certified = newValue;
+                          widget.certificateModel.isRule96Certified = newValue;
                         });
                       },
                     ),
@@ -1239,7 +1241,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                             decoration: textFieldDecoration(
                                 "Date and Time of the examination"),
                             onChanged: (val) {
-                              certificateModel.inspectionDateAndTime =
+                              widget.certificateModel.inspectionDateAndTime =
                                   DateFormat("yyyy-MM-dd hh:mm")
                                       .parse(val)
                                       .millisecondsSinceEpoch;
@@ -1262,7 +1264,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.cattleSpecies = val;
+                              widget.certificateModel.cattleSpecies = val;
                             },
                           ),
                         ),
@@ -1278,7 +1280,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.wagonName = val;
+                              widget.certificateModel.wagonName = val;
                             },
                           ),
                         ),
@@ -1297,7 +1299,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.numberOfCattle = int.parse(val);
+                              widget.certificateModel.numberOfCattle = int.parse(val);
                             },
                           ),
                         ),
@@ -1312,7 +1314,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.sex = val;
+                              widget.certificateModel.sex = val;
                             },
                           ),
                         ),
@@ -1327,7 +1329,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.age = val;
+                              widget.certificateModel.age = val;
                             },
                           ),
                         ),
@@ -1342,7 +1344,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.transportRouteDetails.from = val;
+                              widget.certificateModel.transportRouteDetails.from = val;
                             },
                           ),
                         ),
@@ -1357,7 +1359,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.transportRouteDetails.to = val;
+                              widget.certificateModel.transportRouteDetails.to = val;
                             },
                           ),
                         ),
@@ -1372,7 +1374,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.transportRouteDetails.via = val;
+                              widget.certificateModel.transportRouteDetails.via = val;
                             },
                           ),
                         ),
@@ -1388,7 +1390,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                   : null;
                             },
                             onSaved: (val) {
-                              certificateModel.transportRouteDetails.duration =
+                              widget.certificateModel.transportRouteDetails.duration =
                                   val;
                             },
                           ),
@@ -1443,7 +1445,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                             : null;
                                       },
                                       onSaved: (val) {
-                                        certificateModel.vaccinationDetails
+                                        widget.certificateModel.vaccinationDetails
                                             .vaccineType = val;
                                       },
                                     ),
@@ -1460,7 +1462,7 @@ class CertificateScreenState extends State<CertificateScreen> {
                                       icon: Icon(Icons.event),
                                       decoration: textFieldDecoration("Date"),
                                       onChanged: (val) {
-                                        certificateModel.vaccinationDetails
+                                        widget.certificateModel.vaccinationDetails
                                                 .vaccinatedDate =
                                             DateFormat("yyyy-MM-dd hh:mm")
                                                 .parse(val)
@@ -1511,7 +1513,8 @@ class CertificateScreenState extends State<CertificateScreen> {
       showDialog(
         context: context,
         builder: (context) => ErrorDialog(
-            title: "Please fill valid data. Read and accept all the above checkpoints to proceed."),
+            title:
+                "Please fill valid data. Read and accept all the above checkpoints to proceed."),
       );
     }
     if (valid) {
@@ -1519,26 +1522,26 @@ class CertificateScreenState extends State<CertificateScreen> {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => AnimalDetailsScreen(
                 chosenAnimal: widget.chosenAnimal,
-                certificateModel: certificateModel,
+                certificateModel: widget.certificateModel,
               )));
     }
   }
 
   validateCheckBoxes() {
-    if (certificateModel.isRule96Certified == false ||
-        certificateModel.isRule46To56Certified == false ||
-        certificateModel.canAnimalsTravel12Hours == false ||
-        certificateModel.canAnimalsTravel == false ||
-        certificateModel.areAnimalsFed == false ||
-        certificateModel.areAnimalsVaccinated == false ||
-        certificateModel.areAnimalsFreeFromDiseases.isTrue == null ||
-        certificateModel.noUnfitAnimals.isTrue == null ||
-        certificateModel.pregnantAnimalsAreNotMixedWithYoungerOnes.isTrue ==
+    if (widget.certificateModel.isRule96Certified == false ||
+        widget.certificateModel.isRule46To56Certified == false ||
+        widget.certificateModel.canAnimalsTravel12Hours == false ||
+        widget.certificateModel.canAnimalsTravel == false ||
+        widget.certificateModel.areAnimalsFed == false ||
+        widget.certificateModel.areAnimalsVaccinated == false ||
+        widget.certificateModel.areAnimalsFreeFromDiseases.isTrue == null ||
+        widget.certificateModel.noUnfitAnimals.isTrue == null ||
+        widget.certificateModel.pregnantAnimalsAreNotMixedWithYoungerOnes.isTrue ==
             null ||
-        certificateModel.differentClassesOfAnimalsAreSeparated.isTrue == null ||
-        certificateModel.noDiseasedAnimals.isTrue == null ||
-        certificateModel.animalsTranquilizedIfNeeded.isTrue == null ||
-        certificateModel.purposeOfTransportation == null) {
+        widget.certificateModel.differentClassesOfAnimalsAreSeparated.isTrue == null ||
+        widget.certificateModel.noDiseasedAnimals.isTrue == null ||
+        widget.certificateModel.animalsTranquilizedIfNeeded.isTrue == null ||
+        widget.certificateModel.purposeOfTransportation == null) {
       return false;
     } else
       return true;
@@ -1547,15 +1550,15 @@ class CertificateScreenState extends State<CertificateScreen> {
   checkListValues() {
     secondCertificateCheckList.forEach((e) {
       if (e.check.contains("46 to 56")) {
-        certificateModel.isRule46To56Certified = e.isSelected;
+        widget.certificateModel.isRule46To56Certified = e.isSelected;
       } else if (e.check.contains("12 hours before their departure")) {
-        certificateModel.canAnimalsTravel12Hours = e.isSelected;
+        widget.certificateModel.canAnimalsTravel12Hours = e.isSelected;
       } else if (e.check.contains("fit condition to travel")) {
-        certificateModel.canAnimalsTravel = e.isSelected;
+        widget.certificateModel.canAnimalsTravel = e.isSelected;
       } else if (e.check.contains("adequately fed and watered")) {
-        certificateModel.areAnimalsFed = e.isSelected;
+        widget.certificateModel.areAnimalsFed = e.isSelected;
       } else if (e.check.contains("cattle have been vaccinated")) {
-        certificateModel.areAnimalsVaccinated = e.isSelected;
+        widget.certificateModel.areAnimalsVaccinated = e.isSelected;
       }
     });
   }
